@@ -105,6 +105,6 @@ def PassFromAtoB():
 JarAMaxVolume = 5
 JarBMaxVolume = 3
 
-JarA = 4
+JarA = 3
 FillJar(Jars.B)
 PassFromAtoB()
