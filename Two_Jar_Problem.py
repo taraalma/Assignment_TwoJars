@@ -57,6 +57,12 @@ def JarAEmpty():
 
 def JarBEmpty():
 	print ("Jar B is now empty")
+
+def JarAFull():
+	print ("Jar A is full! ")
+
+def JarBFull():
+	print ("Jar B is full!")
 	
 def DisplayA():
 	global JarA
@@ -90,10 +96,12 @@ def PassFromAtoB():
 	global JarB
 	for x in range(0,JarB):
 		if ( JarB == 0 ):
+			PrintCurrentStatus()
 			JarBEmpty()
 			break
 		elif (JarA == JarAMaxVolume):
-			JarAEmpty()
+			PrintCurrentStatus()
+			JarAFull()
 			break
 		else:
 			JarB = JarB - 1
