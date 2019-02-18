@@ -1,9 +1,7 @@
-import time
-
+########################################################################
 #Define variables
 JarA = 0	#Max = 5 L
 JarB = 0	#Max = 3 L
-
 
 #define enumerators
 from enum import Enum
@@ -52,12 +50,6 @@ def PrintInstructionsNoTime():
 	print ("You need to reach exactly 4 liters")
 	print ("Start!")
 	
-def JarAEmpty():
-	print ("Jar A is now empty")
-
-def JarBEmpty():
-	print ("Jar B is now empty")
-	
 def DisplayA():
 	global JarA
 	print ("Jar A has:",JarA,"liters")
@@ -69,12 +61,11 @@ def DisplayB():
 def PrintCurrentStatus():
 	DisplayA()
 	DisplayB()
-	print("")
 	
-def PrintFromAtoB( x ):
+def PassFromAtoB( x ):
 	print ("You passed",x,"liters of water from Jar A to Jar B ")
 
-def PrintFromBtoA( x ):
+def PassFromBtoA( x ):
 	print ("You passed",x,"liters of water from Jar B to Jar A ")	
 
 def FillJar( x ):
@@ -84,27 +75,4 @@ def FillJar( x ):
 		JarA = 5
 	if (x == Jars.B):
 		JarB = 3
-		
-def PassFromAtoB():
-	global JarA
-	global JarB
-	for x in range(0,JarB):
-		if ( JarB == 0 ):
-			JarBEmpty()
-			break
-		elif (JarA == JarAMaxVolume):
-			JarAEmpty()
-			break
-		else:
-			JarB = JarB - 1
-			JarA = JarA + 1
-			PrintCurrentStatus()
-	
 ########################################################################
-
-JarAMaxVolume = 5
-JarBMaxVolume = 3
-
-JarA = 3
-FillJar(Jars.B)
-PassFromAtoB()
