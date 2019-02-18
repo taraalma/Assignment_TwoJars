@@ -86,6 +86,8 @@ def FillJar( x ):
 		JarB = 3
 		
 def PassFromAtoB():
+	global JarA
+	global JarB
 	for x in range(0,JarB):
 		if ( JarB == 0 ):
 			JarBEmpty()
@@ -103,6 +105,6 @@ def PassFromAtoB():
 JarAMaxVolume = 5
 JarBMaxVolume = 3
 
-JarA = 2
+JarA = 4
 FillJar(Jars.B)
-
+PassFromAtoB()
