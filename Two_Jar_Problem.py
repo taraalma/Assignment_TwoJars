@@ -160,7 +160,7 @@ def startProgram():
 	
 ########################################################################
 
-
+#Main program
 askForInput()
 PrintStartInfo()
 FillJar(Jars.B)
