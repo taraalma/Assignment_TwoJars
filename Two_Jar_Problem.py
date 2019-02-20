@@ -13,27 +13,29 @@ class Jars(Enum):
 #Define functions
 def PrintInstructionsWithTime():
 	print ("Welcome to the Two Jar problem, where you get problems, with jars, at no cost.")
-	time.sleep(0.7)
+	time.sleep(0.5)
 	print ("There are two Jars. None of the Jars has marks that show the level in any measurement.")
-	time.sleep(0.7)
+	time.sleep(0.5)
 	print ("The purpose is to reach certain amount of water in a Jar given two Jars of different measures.")
-	time.sleep(0.7)
+	time.sleep(0.5)
 	print ("For example: given a Jar of 3 L and 5 L, get 4 L.")
-	time.sleep(0.7)
+	time.sleep(0.5)
 	print ("You can only fill the Jars with new water until they are full. You cannot partially fill any Jar with an arbitrary amount of new water.")
-	time.sleep(0.7)
+	time.sleep(0.5)
 	print ("You can pass water between Jars. However, you cannot know exactly how many liters have been passed to the other Jar by simply puring small amounts of water.")
-	time.sleep(0.7)
+	time.sleep(0.5)
 	print ("However, you deduce the amount of water that a Jar has if you transfer water between them.")
-	time.sleep(0.7)
+	time.sleep(0.5)
 	print ("Let water transfer begin.")
-	time.sleep(0.7)
-	print ("You will have to specify both the Jar A and Jar B capacity in liters.")
-	time.sleep(0.7)	
-	print ("You will also have to specify how many liters the algorithm has to reach")
-	time.sleep(0.7)	
+	time.sleep(0.5)
+	print ("Jar A has a capacity of 5 liters.")
+	time.sleep(0.5)	
+	print ("Jar B has a capacity of 3 liters.")
+	time.sleep(0.5)	
+	print ("You need to reach exactly 4 liters")
+	time.sleep(0.5)	
 	print ("Start!")
-	time.sleep(0.7)
+	time.sleep(0.5)
 
 def PrintInstructionsNoTime():
 	print ("Welcome to the Two Jar problem, where you get problems, with jars, at no cost.")
@@ -43,10 +45,11 @@ def PrintInstructionsNoTime():
 	print ("You can only fill the Jars with new water until they are full. You cannot partially fill any Jar with an arbitrary amount of new water.")
 	print ("You can pass water between Jars. However, you cannot know exactly how many liters have been passed to the other Jar by simply puring small amounts of water.")
 	print ("However, you deduce the amount of water that a Jar has if you transfer water between them.")
-	print ("You will have to specify both the Jar A and Jar B capacity in liters.")
-	print ("You will also have to specify how many liters the algorithm has to reach")
-	print ("Get wet and let water transfer begin...Start!")
-	#print ("Start!")
+	print ("Let water transfer begin.")
+	print ("Jar A has a capacity of 5 liters.")
+	print ("Jar B has a capacity of 3 liters.")
+	print ("You need to reach exactly 4 liters")
+	print ("Start!")
 	
 def JarAEmpty():
 	print ("Jar A is now empty")
@@ -139,13 +142,16 @@ def runTest():
 		print("Now starting iteration",y)
 		PassFromAtoB()
 		if ( (JarB == JarVolume) or (JarA == JarVolume) ):
-			print("During iteration:",y,"we found the specified volume of",JarVolume,"liters")
+			print("During iteration:",y,"we found the combination")
 			break	
 		
 ########################################################################
 
-#main program execution
-#PrintInstructionsWithTime()
+
+
+JarA = 0
+JarB = 0
+
 askForInput()
 PrintMaxValues()
 PrintCurrentStatus()
