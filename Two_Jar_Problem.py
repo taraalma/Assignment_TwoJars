@@ -4,7 +4,6 @@ import time
 JarA = 0	#Max = 5 L
 JarB = 0	#Max = 3 L
 
-
 #define enumerators
 from enum import Enum
 class Jars(Enum):
@@ -94,25 +93,40 @@ def FillJar( x ):
 def PassFromAtoB():
 	global JarA
 	global JarB
-	for x in range(0,JarB):
+	print("Passing water from Jar B to Jar A")
+	for x in range(0,JarBMaxVolume):
 		if ( JarB == 0 ):
-			PrintCurrentStatus()
-			JarBEmpty()
+			FillJar(Jars.B)
+			print("Jar B is empty! Refill Jar B to continue")
+			print("Jar B is full again!")
 			break
 		elif (JarA == JarAMaxVolume):
-			PrintCurrentStatus()
-			JarAFull()
+			JarA = 0
+			print("Jar A is full! Empty the Jar to continue...")
+			print("Jar A is now empty!")
 			break
 		else:
 			JarB = JarB - 1
 			JarA = JarA + 1
-			PrintCurrentStatus()
+	print("The status of the Jars for this iteration is the following:")
+	PrintCurrentStatus()
+	
 	
 ########################################################################
 
 JarAMaxVolume = 5
 JarBMaxVolume = 3
 
-JarA = 3
+JarA = 0
+PrintCurrentStatus()
+print("Fill Jar B")
 FillJar(Jars.B)
-PassFromAtoB()
+
+for x in range(0,99):
+	y = x+1
+	print("Now starting iteration",y)
+	PassFromAtoB()
+	if ( (JarB == 2) or (JarA == 2) ):
+		print("During iteration:",y,"we found the combination")
+		break
+		
