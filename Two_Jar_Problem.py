@@ -77,13 +77,18 @@ def PrintMaxValues():
 	global JarVolume
 	print ("Jar A maximum value is:",JarAMaxVolume,"liters")
 	print ("Jar B maximum value is:",JarBMaxVolume,"liters")
-	print ("liters to find are:",JarVolume,"liters")
+	print ("Amount of water to find:",JarVolume,"liters")
 	
 def PrintCurrentStatus():
 	DisplayA()
 	DisplayB()
 	print("")
 	
+def PrintStartInfo():
+	PrintMaxValues()
+	PrintCurrentStatus()
+	print("Filling Jar B to start to find the correct volume...")
+
 def PrintFromAtoB( x ):
 	print ("You passed",x,"liters of water from Jar A to Jar B ")
 
@@ -137,24 +142,26 @@ def askForInput():
 	#JarVolume = 2
 
 def runTest():
-	for x in range(0,99):
+	for x in range(0,999):
 		y = x+1
 		print("Now starting iteration",y)
 		PassFromAtoB()
 		if ( (JarB == JarVolume) or (JarA == JarVolume) ):
 			print("During iteration:",y,"we found the combination")
-			break	
-		
+			return (True)
+	return (False)
+
+def startProgram():
+	if ( runTest() == False ):
+		print ("Solution not found :(")
+		print ("Would you consider changing the numbers? If so, please run the program again!")
+	else:
+		print ("Finished test run!")
+	
 ########################################################################
 
-
-
-JarA = 0
-JarB = 0
-
+#Main program
 askForInput()
-PrintMaxValues()
-PrintCurrentStatus()
-print("Filling Jar B to start to find the correct volume...")
+PrintStartInfo()
 FillJar(Jars.B)
-runTest()
+startProgram()
