@@ -1,13 +1,3 @@
-########################################################################
-#Define variables
-JarA = 0	#Max = 5 L
-JarB = 0	#Max = 3 L
-
-#define enumerators
-from enum import Enum
-class Jars(Enum):
-	A = 0
-	B = 1
 
 #Define functions
 def PrintInstructionsWithTime():
@@ -50,6 +40,18 @@ def PrintInstructionsNoTime():
 	print ("You need to reach exactly 4 liters")
 	print ("Start!")
 	
+def JarAEmpty():
+	print ("Jar A is now empty")
+
+def JarBEmpty():
+	print ("Jar B is now empty")
+
+def JarAFull():
+	print ("Jar A is full! ")
+
+def JarBFull():
+	print ("Jar B is full!")
+	
 def DisplayA():
 	global JarA
 	print ("Jar A has:",JarA,"liters")
@@ -58,21 +60,91 @@ def DisplayB():
 	global JarB
 	print ("Jar B has:",JarB,"liters")	
 
+def PrintMaxValues():
+	global JarAMaxVolume
+	global JarBMaxVolume
+	global JarVolume
+	print ("Jar A maximum value is:",JarAMaxVolume,"liters")
+	print ("Jar B maximum value is:",JarBMaxVolume,"liters")
+	print ("Amount of water to find:",JarVolume,"liters")
+	
 def PrintCurrentStatus():
 	DisplayA()
 	DisplayB()
+	print("")
 	
-def PassFromAtoB( x ):
+def PrintStartInfo():
+	PrintMaxValues()
+	PrintCurrentStatus()
+	print("Filling Jar B to start to find the correct volume...")
+
+def PrintFromAtoB( x ):
 	print ("You passed",x,"liters of water from Jar A to Jar B ")
 
-def PassFromBtoA( x ):
+def PrintFromBtoA( x ):
 	print ("You passed",x,"liters of water from Jar B to Jar A ")	
 
 def FillJar( x ):
 	global JarA
 	global JarB
 	if (x == Jars.A):
-		JarA = 5
+		JarA = JarAMaxVolume
 	if (x == Jars.B):
-		JarB = 3
-########################################################################
+		JarB = JarBMaxVolume
+		
+def PassFromAtoB():
+	global JarA
+	global JarB
+	
+	print("Passing water from Jar B to Jar A")
+	for x in range(0,JarBMaxVolume):
+		if ( JarB == 0 ):
+			print("Jar B is empty! Refill Jar B to continue")
+			FillJar(Jars.B)
+			print("Jar B is full again and Jar A contains",JarA,"liters")
+			break
+		elif (JarA == JarAMaxVolume):
+			print("Jar A is full! Empty the Jar to continue...")
+			JarA = 0
+			print("Jar A is now empty and Jar B contains",JarB,"liters")
+			break
+		else:
+			JarB = JarB - 1
+			JarA = JarA + 1
+	print("The status of the Jars for this iteration is the following:")
+	PrintCurrentStatus()
+
+
+def askForInput():
+	global JarAMaxVolume
+	global JarBMaxVolume
+	global JarVolume
+	
+	print("Please introduce Jar A maximum volume")
+	JarAMaxVolume = int(input())
+	#JarBMaxVolume = 5
+	print("Please introduce Jar B maximum volume")
+	JarBMaxVolume = int(input())
+	#JarBMaxVolume = 3
+	print("Please introduce the liters to find")
+	JarVolume = int(input())
+	#JarVolume = 2
+
+def runTest():
+	for x in range(0,999):
+		y = x+1
+		print("Now starting iteration",y)
+		PassFromAtoB()
+		if ( (JarB == JarVolume) or (JarA == JarVolume) ):
+			print("During iteration:",y,"we found the combination")
+			return (True)
+	return (False)
+
+def startProgram():
+	if ( runTest() == False ):
+		print ("Solution not found :(")
+		print ("Would you consider changing the numbers? If so, please run the program again!")
+	else:
+		print ("Finished test run!")
+	
+#End of definitions

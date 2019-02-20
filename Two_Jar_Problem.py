@@ -158,7 +158,7 @@ def startProgram():
 	else:
 		print ("Finished test run!")
 	
-########################################################################
+#End of definitions
 
 #Main program
 askForInput()
