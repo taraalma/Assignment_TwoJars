@@ -1,3 +1,26 @@
+#Problema: "Se tienes dos jarras, una de cuatro litros de capacidad y otra de tres. 
+#Ninguna de ellas tiene marcas de medición. Se tiene una llave que permite llenar las jarras de agua. 
+#¿Cómo se puede lograr tener exactamente dos litros de agua en la jarra de cuatro litros de capacidad?."
+
+#Desarrollar un programa que, dado el estado inicial de las dos jarras por parte del usuario,
+#y encuentre la solución aplicando las reglas de producción siguientes:
+
+#El programa debe desplegar (en lista) el nodo (estado de las jarras) y la regla aplicada.
+
+#El programa debe estar documentado (comentarios dentro del código que informe el desarrollador,
+#fecha, título del programa y un breve resumen del objetivo del programa e instrucciones de funcionamiento.
+
+#Elementos extras a considerar: Despliegue grafico de la información. 
+#Graficación del arbol de búsquedas, traslado en el árbol.
+
+#Selección del lenguaje a utilizar: Python . Archivos a entregar: Código fuente.
+
+#TwoJarsProblem
+#March 3, 2019
+#Luis Rojas
+#19550002
+
+
 import time
 
 #Define variables
@@ -9,6 +32,11 @@ from enum import Enum
 class Jars(Enum):
 	A = 0
 	B = 1
+
+JarAInitialVolume = 0
+JarBInitialVolume = 0
+JarAMaxVolume = 4
+JarBMaxVolume = 4
 
 #Define functions
 def PrintInstructionsWithTime():
@@ -50,7 +78,8 @@ def PrintInstructionsNoTime():
 	print ("Jar B has a capacity of 3 liters.")
 	print ("You need to reach exactly 4 liters")
 	print ("Start!")
-	
+
+#Jar X status alerts.
 def JarAEmpty():
 	print ("Jar A is now empty")
 
@@ -71,23 +100,22 @@ def DisplayB():
 	global JarB
 	print ("Jar B has:",JarB,"liters")	
 
-def PrintMaxValues():
+# Print starting information
+def PrintStartInfo():
 	global JarAMaxVolume
 	global JarBMaxVolume
 	global JarVolume
-	print ("Jar A maximum value is:",JarAMaxVolume,"liters")
-	print ("Jar B maximum value is:",JarBMaxVolume,"liters")
-	print ("Amount of water to find:",JarVolume,"liters")
-	
+	print ("Jar A maximum value is: 4 liters")
+	print ("Jar A initial value is:", JarAInitialVolume,"liters")
+	print ("Jar B maximum value is: 3 liters")
+	print ("Jar B initial value is:", JarBInitialVolume,"liters")
+	print ("Amount of water to find: 2 liters")
+
+# Function used to print the current water status of both Jars	
 def PrintCurrentStatus():
 	DisplayA()
 	DisplayB()
 	print("")
-	
-def PrintStartInfo():
-	PrintMaxValues()
-	PrintCurrentStatus()
-	print("Filling Jar B to start to find the correct volume...")
 
 def PrintFromAtoB( x ):
 	print ("You passed",x,"liters of water from Jar A to Jar B ")
@@ -95,6 +123,7 @@ def PrintFromAtoB( x ):
 def PrintFromBtoA( x ):
 	print ("You passed",x,"liters of water from Jar B to Jar A ")	
 
+# Function used to fill both Jars
 def FillJar( x ):
 	global JarA
 	global JarB
@@ -102,45 +131,76 @@ def FillJar( x ):
 		JarA = JarAMaxVolume
 	if (x == Jars.B):
 		JarB = JarBMaxVolume
-		
-def PassFromAtoB():
+
+# Function used to pass water between Jars
+def PassWaterTo( x ):
 	global JarA
 	global JarB
 	
-	print("Passing water from Jar B to Jar A")
-	for x in range(0,JarBMaxVolume):
+	if ( x == JarA ):
+		print("Passing water from Jar B to Jar A")
+		
 		if ( JarB == 0 ):
 			print("Jar B is empty! Refill Jar B to continue")
 			FillJar(Jars.B)
 			print("Jar B is full again and Jar A contains",JarA,"liters")
-			break
+			
 		elif (JarA == JarAMaxVolume):
 			print("Jar A is full! Empty the Jar to continue...")
 			JarA = 0
 			print("Jar A is now empty and Jar B contains",JarB,"liters")
-			break
+			
 		else:
 			JarB = JarB - 1
 			JarA = JarA + 1
-	print("The status of the Jars for this iteration is the following:")
-	PrintCurrentStatus()
+		
+		
+	else :
+		print("Passing water from Jar A to Jar B")
+		for x in range(0,JarAMaxVolume):
+			if ( JarA == 0 ):
+				print("Jar A is empty! Refill Jar A to continue")
+				FillJar(Jars.A)
+				print("Jar A is full again and Jar B contains",JarA,"liters")
+				break
+			elif (JarB == JarBMaxVolume):
+				print("Jar B is full! Empty the Jar to continue...")
+				JarB = 0
+				print("Jar B is now empty and Jar A contains",JarA,"liters")
+				break
+			else:
+				JarB = JarB + 1
+				JarA = JarA - 1
+		print("The status of the Jars for this iteration is the following:")
+		PrintCurrentStatus()
 
+# Function used to set the initial values for both Jars
+def askForInitialJarsVolume():
+	global JarAInitialVolume
+	global JarBInitialVolume
+	
+	print("Please introduce Jar A initial volume")
+	JarAInitialVolume = int(input())
+	print("Please introduce Jar B initial volume")
+	JarBInitialVolume = int(input())
+	print("Jar A starts at", JarAInitialVolume,"and Jar B starts at",JarBInitialVolume)
 
-def askForInput():
+# Unused function to introduce maximum volume for Jar A and Jar B as well as to
+# set the liters to find.
+def askForMaxVolumeInput():
 	global JarAMaxVolume
 	global JarBMaxVolume
 	global JarVolume
 	
-	print("Please introduce Jar A maximum volume")
+	print("Please introduce Jar A volume")
 	JarAMaxVolume = int(input())
 	#JarBMaxVolume = 5
-	print("Please introduce Jar B maximum volume")
+	print("Please introduce Jar B volume")
 	JarBMaxVolume = int(input())
 	#JarBMaxVolume = 3
 	print("Please introduce the liters to find")
 	JarVolume = int(input())
 	#JarVolume = 2
-
 def runTest():
 	for x in range(0,999):
 		y = x+1
@@ -158,10 +218,61 @@ def startProgram():
 	else:
 		print ("Finished test run!")
 	
+# This function fills Jar A
+def RuleOne():
+	FillJar( Jars.A )
+	JarAFull()
+
+# This function fills Jar B
+def RuleTwo():	
+	FillJar( Jars.B )
+	JarBFull()
+
+# Empty Jar A by one liter
+def RuleThree():
+	global JarA
+	if (JarA == 0 ):
+		print("Can't empty something already void :(")
+	else:
+		JarA = JarA - 1
+
+# Empty Jar B by one liter
+def RuleFour():
+	global JarB
+	if (JarB == 0):
+		print("Can't empty something already void :(")
+	else:
+		JarB = JarB - 1
+
+# This function will empty Jar A
+def RuleFive():
+	global JarA
+	JarA = 0
+	JarAEmpty()
+
+# This function will empty Jar B
+def RuleSix():
+	global JarB
+	JarB = 0
+	JarBEmpty()
+# This function will pass water from Jar B to Jar A
+def RuleSeven():
+	PassWaterTo( JarA )
+# This function will pass water from Jar A to Jar B
+def RuleNine():
+	PassWaterTo( JarB )
+
+def RuleTen():
+	pass
+
+def RuleEleven():
+	pass
+
+def RuleTwelve():
+	pass
+
+
 #End of definitions
 
 #Main program
-askForInput()
-PrintStartInfo()
-FillJar(Jars.B)
-startProgram()
+
