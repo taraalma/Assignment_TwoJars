@@ -22,6 +22,7 @@
 
 
 import time
+from Module_Definitions import PrintInstructionsWithTime, PrintInstructionsNoTime
 
 #Define variables
 JarA = 0	#User can input the values
@@ -50,46 +51,6 @@ def debugFunction():
 		debugRules = 0
 	else:
 		debugRules = 1
-
-def PrintInstructionsWithTime():
-	print ("Welcome to the Two Jar problem, where you get problems, with jars, at no cost.")
-	time.sleep(0.5)
-	print ("There are two Jars. None of the Jars has marks that show the level in any measurement.")
-	time.sleep(0.5)
-	print ("The purpose is to reach certain amount of water in a Jar given two Jars of different measures.")
-	time.sleep(0.5)
-	print ("For example: given a Jar of 4 L and another one of 3 L, get 2 L.")
-	time.sleep(0.5)
-	print ("You can only fill the Jars with new water until they are full. You cannot partially fill any Jar with an arbitrary amount of new water.")
-	time.sleep(0.5)
-	print ("You can pass water between Jars. However, you cannot know exactly how many liters have been passed to the other Jar by simply puring small amounts of water.")
-	time.sleep(0.5)
-	print ("However, you deduce the amount of water that a Jar has if you transfer water between them.")
-	time.sleep(0.5)
-	print ("Let water transfer begin.")
-	time.sleep(0.5)
-	print ("Jar A has a capacity of 4 liters.")
-	time.sleep(0.5)	
-	print ("Jar B has a capacity of 3 liters.")
-	time.sleep(0.5)	
-	print ("You need to reach exactly 2 liters")
-	time.sleep(0.5)	
-	print ("Start!")
-	time.sleep(0.5)
-
-def PrintInstructionsNoTime():
-	print ("Welcome to the Two Jar problem, where you get problems, with jars, at no cost.")
-	print ("There are two Jars. None of the Jars has marks that show the level in any measurement.")
-	print ("The purpose is to reach certain amount of water in a Jar given two Jars of different measures.")
-	print ("For example: given a Jar of 4 L and another one of 3 L, get 2 L.")
-	print ("You can only fill the Jars with new water until they are full. You cannot partially fill any Jar with an arbitrary amount of new water.")
-	print ("You can pass water between Jars. However, you cannot know exactly how many liters have been passed to the other Jar by simply puring small amounts of water.")
-	print ("However, you deduce the amount of water that a Jar has if you transfer water between them.")
-	print ("Let water transfer begin.")
-	print ("Jar A has a capacity of 4 liters.")
-	print ("Jar B has a capacity of 3 liters.")
-	print ("You need to reach exactly 2 liters")
-	print ("Start!")
 
 #Jar X status alerts.
 def JarAEmpty():
@@ -305,15 +266,27 @@ def RuleEight():
 
 #This function will pass completely the content of Jar A into Jar B
 def RuleNine():
+	global debugRules
+	if ( debugRules == 1 ):
+		print ("Rule 9")
 	pass
 
 def RuleTen():
+	global debugRules
+	if ( debugRules == 1 ):
+		print ("Rule 10")
 	pass
 
 def RuleEleven():
+	global debugRules
+	if ( debugRules == 1 ):
+		print ("Rule 11")
 	pass
 
 def RuleTwelve():
+	global debugRules
+	if ( debugRules == 1 ):
+		print ("Rule 12")
 	pass
 
 
@@ -321,6 +294,7 @@ def RuleTwelve():
 
 #Main program
 
+
 debugFunction()
 askForInitialJarsVolume()
-RuleOne()
+RuleEleven()
