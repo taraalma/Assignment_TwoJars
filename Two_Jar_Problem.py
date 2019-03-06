@@ -38,9 +38,9 @@ debugRules = 0
 JarAInitialVolume = 0
 JarBInitialVolume = 0
 JarAMaxVolume = 4
-JarBMaxVolume = 4
+JarBMaxVolume = 3
 PassToA = 98
-PassToA = 12
+PassToB = 12
 
 #Define functions
 def debugFunction():
@@ -114,6 +114,7 @@ def PassWaterTo( x ):
 		print ("Passing water from Jar B to Jar A")
 		if ( JarB == 0 ):
 			JarBEmpty()
+			#print(JarB)
 		elif (JarA == JarAMaxVolume):
 			JarAFull()
 		else:
@@ -123,11 +124,43 @@ def PassWaterTo( x ):
 		print ("Passing water from Jar A to Jar B")
 		if ( JarA == 0 ):
 			JarAEmpty()
+			#print(JarB)
 		elif (JarB == JarBMaxVolume):
 			JarBFull()
 		else:
 			JarB = JarB + 1
 			JarA = JarA - 1
+
+def PassAllWaterTo( x ):
+	global JarA
+	global JarB
+	
+	if ( x == PassToA ):
+		print ("Passing ALL water from Jar B to Jar A")
+		while True:
+			if ( JarB == 0 ):
+				JarBEmpty()
+				print(JarA)
+				break
+			if ( JarA == JarAMaxVolume ):
+				JarA = 0
+				print("Rule 5 / Rule 12")
+			JarB = JarB - 1
+			JarA = JarA + 1	
+		
+	elif ( x == PassToB) :
+		print ("Passing ALL water from Jar A to Jar B")
+		while True:
+			if ( JarA == 0 ):
+				JarAEmpty()
+				print(JarB)
+				break
+			if ( JarB == JarBMaxVolume ):
+				JarB = 0
+				print("Rule 6")
+			JarA = JarA - 1
+			JarB = JarB + 1
+			
 
 # Function used to set the initial values for both Jars
 def askForInitialJarsVolume():
@@ -271,18 +304,20 @@ def RuleNine():
 		print ("Rule 9")
 	pass
 
+#This function will pass completely the content of Jar B into Jar A
 def RuleTen():
 	global debugRules
 	if ( debugRules == 1 ):
 		print ("Rule 10")
 	pass
-
+#This function will pass 2 liters of water from Jar B into Jar A
 def RuleEleven():
 	global debugRules
 	if ( debugRules == 1 ):
 		print ("Rule 11")
 	pass
 
+#This function will completely empty Jar A
 def RuleTwelve():
 	global debugRules
 	if ( debugRules == 1 ):
@@ -297,4 +332,4 @@ def RuleTwelve():
 
 debugFunction()
 askForInitialJarsVolume()
-RuleEleven()
+PassAllWaterTo(PassToB)
