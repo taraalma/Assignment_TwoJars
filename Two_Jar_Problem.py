@@ -36,28 +36,40 @@ class Jars(Enum):
 
 printRules = 0
 debugRules = 0
+printStatus = 0
 JarAInitialVolume = 0
 JarBInitialVolume = 0
 JarAMaxVolume = 4
 JarBMaxVolume = 3
 PassToA = 98
 PassToB = 12
+maximumCycles = 0
 
 #Define functions
 def debugFunction():
 	global printRules
+	global debugRules
+	global printStatus
 	print ("Print Rules? (Y/N)")
 	debuginfo = input()
 	if ( debuginfo == "N" or debuginfo == "n"):
 		printRules = 0
 	else:
 		printRules = 1
+	
 	print ("Print debug information? (Y/N)")
 	debuginfo = input()
 	if ( debuginfo == "N" or debuginfo == "n"):
 		debugRules = 0
 	else:
 		debugRules = 1
+
+	print ("Print Jars status? (Y/N)")
+	debuginfo = input()
+	if ( debuginfo == "N" or debuginfo == "n"):
+		printStatus = 0
+	else:
+		printStatus = 1	
 
 #Jar X status alerts.
 def JarAEmpty():
@@ -118,7 +130,7 @@ def PassWaterTo( x ):
 	global JarB
 	global debugRules
 	if ( x == PassToA ):
-		if(debugRules==1):
+		if( debugRules == 1 ):
 			print ("Passing water from Jar B to Jar A")
 		if ( JarB == 0 ):
 			if ( debugRules == 1):
@@ -189,12 +201,14 @@ def askForInitialJarsVolume():
 	global JarBInitialVolume
 	global JarA
 	global JarB
+	global printRules
 	
 	print ("Please introduce Jar A initial volume")
 	JarAInitialVolume = int(input())
 	print ("Please introduce Jar B initial volume")
 	JarBInitialVolume = int(input())
-	print ("Jar A starts at", JarAInitialVolume,"and Jar B starts at",JarBInitialVolume)
+	if( printRules == 1):
+		print ("Jar A starts at", JarAInitialVolume,"and Jar B starts at",JarBInitialVolume)
 	JarA = JarAInitialVolume
 	JarB = JarBInitialVolume
 
@@ -202,10 +216,11 @@ def askForInitialJarsVolume():
 def RuleOne():
 	global printRules
 	global debugRules
+	
 	if ( printRules == 1 ):
 		print ("Rule 1")
-		if(debugRules == 1):
-			print ("Now filling Jar A")
+	if ( debugRules == 1 ):
+		print ("Now filling Jar A")
 	FillJar( Jars.A )
 	if(debugRules == 1):
 		JarAFull()
@@ -216,8 +231,8 @@ def RuleTwo():
 	global debugRules
 	if ( printRules == 1 ):
 		print ("Rule 2")
-		if(debugRules == 1):
-			print ("Now filling Jar B")
+	if(debugRules == 1):
+		print ("Now filling Jar B")
 	FillJar( Jars.B )
 	if(debugRules == 1):
 		JarBFull()
@@ -272,8 +287,8 @@ def RuleSix():
 	global debugRules
 	if ( printRules == 1 ):
 		print ("Rule 6")
-		if ( debugRules == 1):
-			print ("Emptying Jar B")
+	if ( debugRules == 1):
+		print ("Emptying Jar B")
 		
 	JarB = 0
 	if ( debugRules == 1 ):
@@ -287,8 +302,8 @@ def RuleSeven():
 	global debugRules
 	if ( printRules == 1 ):
 		print ("Rule 7")
-		if( debugRules == 1):
-			print ("Passing water from Jar B to Jar A")
+	if( debugRules == 1):
+		print ("Passing water from Jar B to Jar A")
 	PassWaterTo( PassToA )
 
 # This function will pass water from Jar A to Jar B
@@ -297,8 +312,8 @@ def RuleEight():
 	global debugRules
 	if ( printRules == 1 ):
 		print ("Rule 8")
-		if( debugRules == 1):
-			print ("Passing water from Jar A to Jar B")
+	if ( debugRules == 1 ):
+		print ("Passing water from Jar A to Jar B")
 	PassWaterTo( PassToB )
 
 #This function will pass completely the content of Jar A into Jar B
@@ -332,22 +347,27 @@ def RuleTwelve():
 	JarA = 0
 
 #This function will check when the 2 liters are found
-def FinishCondition ( ):
+def HaveWeFinished ( ):
 	global JarA
 	global JarB
 	if (JarA == 2):
 		print("FINISHED")
+		return(True)
 	elif (JarB == 2):
 		print("FINISHED")
+		return(True)
 
 #This function will initialize the program
 def startProgram():
 	global JarA
 	global JarB
+	global printStatus
+	global maximumCycles
 	
 	while True:
 		if ( JarA > JarB):
 			RuleEight()
+			break
 
 #This function helps to depurate any compilation errors
 def TestAllRules():
@@ -371,4 +391,4 @@ def TestAllRules():
 
 debugFunction()
 askForInitialJarsVolume()
-TestAllRules()
+startProgram()
