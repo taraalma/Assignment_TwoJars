@@ -75,23 +75,23 @@ def debugFunction():
 		printStatus = 1	
 
 #Jar X status alerts.
-def JarAEmpty():
+def PrintJarAEmpty():
 	print ("Jar A is now empty")
 
-def JarBEmpty():
+def PrintJarBEmpty():
 	print ("Jar B is now empty")
 
-def JarAFull():
+def PrintJarAFull():
 	print ("Jar A is full! ")
 
-def JarBFull():
+def PrintJarBFull():
 	print ("Jar B is full!")
 	
-def DisplayA():
+def PrintJarAStatus():
 	global JarA
 	print ("Jar A has:",JarA,"liters")
 
-def DisplayB():
+def PrintJarBStatus():
 	global JarB
 	print ("Jar B has:",JarB,"liters")	
 
@@ -108,8 +108,8 @@ def PrintStartInfo():
 
 # Function used to print the current water status of both Jars	
 def PrintCurrentStatus():
-	DisplayA()
-	DisplayB()
+	PrintJarAStatus()
+	PrintJarBStatus()
 	print ("")
 
 def PrintFromAtoB( x ):
@@ -140,11 +140,10 @@ def PassWaterTo( x ):
 			print ("Passing water from Jar B to Jar A")
 		if ( JarB == 0 ):
 			if ( debugRules == 1):
-				JarBEmpty()
-				#print(JarB)
+				PrintJarBEmpty()
 		elif (JarA == JarAMaxVolume):
 			if ( debugRules == 1):
-				JarAFull()
+				PrintJarAFull()
 		else:
 			JarB = JarB - 1
 			JarA = JarA + 1
@@ -153,11 +152,10 @@ def PassWaterTo( x ):
 			print ("Passing water from Jar A to Jar B")
 		if ( JarA == 0 ):
 			if ( debugRules == 1):
-				JarAEmpty()
-				#print(JarB)
+				PrintJarAEmpty()
 		elif (JarB == JarBMaxVolume):
 			if ( debugRules == 1):
-				JarBFull()
+				PrintJarBFull()
 		else:
 			JarB = JarB + 1
 			JarA = JarA - 1
@@ -170,45 +168,41 @@ def PassAllWaterTo( x ):
 	global printStatus
 	global JarAMaxVolume
 	global JarBMaxVolume
-#RuleFive empty Jar A	
-#RuleSix empty Jar B
+
 	if ( x == PassToA ):
 		if (debugRules == 1):
 			print ("Passing ALL water from Jar B to Jar A")
 		while True:
 			if ( JarB == 0 ):
 				if ( debugRules == 1):
-					JarBEmpty()
+					PrintJarBEmpty()
 					print("The Jar A still has", JarA," Liters")
 				break
-			if ( JarA == JarAMaxVolume ):
+			elif ( JarA == JarAMaxVolume ):
 				if (printRules == 1):	
-					RuleSix()
-					print("Rule 6")				
-			if ( HaveWeFinished() )
-				break
-			JarB = JarB - 1
-			JarA = JarA + 1
+					print("Rule 5")
+					RuleFive()
+			else:
+				JarB = JarB - 1
+				JarA = JarA + 1
 			if( printStatus == 1):
-				PrintCurrentStatus()
-		
+				PrintCurrentStatus()	
 	elif ( x == PassToB):
 		if (debugRules == 1):
 			print ("Passing ALL water from Jar A to Jar B")
 		while True:
 			if ( JarA == 0 ):
 				if ( debugRules == 1):
-					JarAEmpty()
+					PrintJarAEmpty()
 					print("The Jar B still has", JarB," Liters")
 				break
-			if ( JarB == JarBMaxVolume ):
+			elif ( JarB == JarBMaxVolume ):
 				if (printRules == 1):	
 					print("Rule 6")
-				break
-			if ( HaveWeFinished() )
-				break
-			JarA = JarA - 1
-			JarB = JarB + 1
+					RuleSix()
+			else:
+				JarB = JarB + 1
+				JarA = JarA - 1
 			if( printStatus == 1):
 				PrintCurrentStatus()
 
@@ -245,7 +239,7 @@ def RuleOne():
 		print ("Now filling Jar A")
 	FillJar( Jars.A )
 	if (debugRules == 1):
-		JarAFull()
+		PrintJarAFull()
 
 # This function fills Jar B
 def RuleTwo():
@@ -259,7 +253,7 @@ def RuleTwo():
 		print ("Now filling Jar B")
 	FillJar( Jars.B )
 	if (debugRules == 1):
-		JarBFull()
+		PrintJarBFull()
 
 # Empty a little Jar A 
 def RuleThree():
@@ -308,7 +302,7 @@ def RuleFive():
 		print ("Emptying Jar A")
 	JarA = 0
 	if ( debugRules == 1 ):
-		JarAEmpty()
+		PrintJarAEmpty()
 
 # This function will empty Jar B
 def RuleSix():
@@ -324,7 +318,7 @@ def RuleSix():
 		
 	JarB = 0
 	if ( debugRules == 1 ):
-		JarBEmpty()
+		PrintJarBEmpty()
 #Jar A = 4 liters
 #Jar B = 3 liters
 
@@ -398,10 +392,13 @@ def RuleTwelve():
 def HaveWeFinished ( ):
 	global JarA
 	global JarB
+	global ProgramIsFinishedFlag
 	if (JarA == 2):
+		ProgramIsFinishedFlag = True
 		print("FINISHED")
 		return(True)
 	elif (JarB == 2):
+		ProgramIsFinishedFlag = True
 		print("FINISHED")
 		return(True)
 
@@ -414,44 +411,49 @@ def startProgram():
 	global printRules
 	global debugRules
 	global printStatus
-	
-	while True:
-		if ( JarA > JarB):
+	global ProgramIsFinishedFlag
+
+	while ( (True) and (not(ProgramIsFinishedFlag)) ):
+		
+		if ( HaveWeFinished() ):
+				break
+
+		if ( JarA > JarB ):
+			print ("A")
 			RuleNine()
 			if ( HaveWeFinished() ):
 				break
-			if ( maximumCyclesToRun > 30 ):
+			if ( maximumCyclesToRun > 10 ):
 				break
 			else:
 				maximumCyclesToRun = maximumCyclesToRun + 1
-			RuleOne()
 			if( printStatus == 1):
 				PrintCurrentStatus()
-			continue
-			print ("A")
-		elif ( JarB > JarA):
+
+		elif ( JarB > JarA ):
+			print ("B")
 			RuleTen()
 			if ( HaveWeFinished() ):
 				break
-			if ( maximumCyclesToRun > 30 ):
+			if ( maximumCyclesToRun > 10 ):
 				break
 			else:
 				maximumCyclesToRun = maximumCyclesToRun + 1
 			RuleTwo()
 			if( printStatus == 1):
 				PrintCurrentStatus()
-			continue
-			print ("B")
-		elif ( JarA == JarB	):
-			if ( maximumCyclesToRun > 30 ):
-				break
-			else:
-				maximumCyclesToRun = maximumCyclesToRun + 1
-			RuleTwo()
-			if( printStatus == 1):
-				PrintCurrentStatus()
-			continue
+			
+		else:
 			print ("C")
+			if ( maximumCyclesToRun > 10 ):
+				break
+			else:
+				maximumCyclesToRun = maximumCyclesToRun + 1
+			RuleTwo()
+			if( printStatus == 1):
+				PrintCurrentStatus()
+			
+
 	print (	"ma felipe esta en el bote")
 
 #This function helps to depurate any compilation errors
@@ -473,16 +475,7 @@ def TestAllRules():
 
 #Main program
 
-JarA = 4
-JarB = 2
-PrintCurrentStatus()
 
-for i in range (0,9):
-	RuleNine()
-	PrintCurrentStatus()
-
-
-#debugFunction()
-#askForInitialJarsVolume()
-#startProgram()
-#
+debugFunction()
+askForInitialJarsVolume()
+startProgram()
