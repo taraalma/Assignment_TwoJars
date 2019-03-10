@@ -251,6 +251,7 @@ def RuleTwo():
 		print ("Rule 2")
 	if (debugRules == 1):
 		print ("Now filling Jar B")
+	
 	FillJar( Jars.B )
 	if (debugRules == 1):
 		PrintJarBFull()
@@ -393,14 +394,18 @@ def HaveWeFinished ( ):
 	global JarA
 	global JarB
 	global ProgramIsFinishedFlag
-	if (JarA == 2):
+	if (JarA == 2 and JarB == 2 ):
 		ProgramIsFinishedFlag = True
 		print("FINISHED")
 		return(True)
-	elif (JarB == 2):
+	elif (JarB == 2 and JarA == 4):
 		ProgramIsFinishedFlag = True
 		print("FINISHED")
 		return(True)
+	elif (JarA == 2 and JarB == 3):
+		ProgramIsFinishedFlag = True
+		print("FINISHED")
+		return(True)	
 
 #This function will initialize the program
 def startProgram():
@@ -413,24 +418,28 @@ def startProgram():
 	global printStatus
 	global ProgramIsFinishedFlag
 
-	while ( (True) and (not(ProgramIsFinishedFlag)) ):
+	while ( True ):
+		
 		
 		if ( HaveWeFinished() ):
 				break
 
 		if ( JarA > JarB ):
 			print ("A")
-			RuleNine()
+			
+			RuleSeven()
 			if ( HaveWeFinished() ):
 				break
+			
 			if ( maximumCyclesToRun > 10 ):
 				break
 			else:
 				maximumCyclesToRun = maximumCyclesToRun + 1
+			
 			if( printStatus == 1):
 				PrintCurrentStatus()
 
-		elif ( JarB > JarA ):
+		elif ( JarA < JarB ):
 			print ("B")
 			RuleTen()
 			if ( HaveWeFinished() ):
@@ -443,16 +452,18 @@ def startProgram():
 			if( printStatus == 1):
 				PrintCurrentStatus()
 			
-		else:
+		elif ( JarB == JarA ) :
 			print ("C")
 			if ( maximumCyclesToRun > 10 ):
 				break
 			else:
 				maximumCyclesToRun = maximumCyclesToRun + 1
 			RuleTwo()
+			RuleSix()
 			if( printStatus == 1):
 				PrintCurrentStatus()
-			
+		else:
+			break
 
 	print (	"ma felipe esta en el bote")
 
