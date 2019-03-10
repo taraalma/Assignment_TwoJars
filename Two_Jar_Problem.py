@@ -1,38 +1,25 @@
-#Problema: "Se tienes dos jarras, una de cuatro litros de capacidad y otra de tres. 
-#Ninguna de ellas tiene marcas de medición. Se tiene una llave que permite llenar las jarras de agua. 
-#¿Cómo se puede lograr tener exactamente dos litros de agua en la jarra de cuatro litros de capacidad?."
-
-#Desarrollar un programa que, dado el estado inicial de las dos jarras por parte del usuario,
-#y encuentre la solución aplicando las reglas de producción siguientes:
-
-#El programa debe desplegar (en lista) el nodo (estado de las jarras) y la regla aplicada.
-
-#El programa debe estar documentado (comentarios dentro del código que informe el desarrollador,
-#fecha, título del programa y un breve resumen del objetivo del programa e instrucciones de funcionamiento.
-
-#Elementos extras a considerar: Despliegue grafico de la información. 
-#Graficación del arbol de búsquedas, traslado en el árbol.
-
-#Selección del lenguaje a utilizar: Python . Archivos a entregar: Código fuente.
-
 #TwoJarsProblem
 #March 3, 2019
 #Luis Rojas
 #19550002
 
+#Instructions:
+# Run the program. Preferably, in a console!
+# follow the instructions printed on the console
 
 import time
-from Module_Definitions import PrintInstructionsWithTime, PrintInstructionsNoTime
+import random
 
-#Define variables
-JarA = 0	#User can input the values
-JarB = 0	#User can input the values
 
 #define enumerators
 from enum import Enum
 class Jars(Enum):
 	A = 0
 	B = 1
+
+#Start variables initialization
+JarA = 0	#User can input the values
+JarB = 0	#User can input the values
 
 printRules = 0					# Flag to signal the rules being applied.
 debugRules = 0					# Flag to show status to developer.
@@ -47,8 +34,9 @@ PassToA = 98					# Magic number to avoid repetition
 PassToB = 12					# Magic number to avoid repetition
 maximumCyclesToRun = 0			# Number of maximum numbers to run program
 ProgramIsFinishedFlag = False	# Flag to signal that the program is complete
+#End variables initialization
 
-#Define functions
+#Start of function definitions
 def debugFunction():
 	global printRules
 	global debugRules
@@ -74,6 +62,17 @@ def debugFunction():
 	else:
 		printStatus = 1	
 
+
+def releaseInitialFunction():
+	global printRules
+	global debugRules
+	global printStatus
+	
+	printRules = 1
+	debugRules = 0
+	printStatus = 1	
+
+		
 #Jar X status alerts.
 def PrintJarAEmpty():
 	print ("Jar A is now empty")
@@ -95,6 +94,34 @@ def PrintJarBStatus():
 	global JarB
 	print ("Jar B has:",JarB,"liters")	
 
+#print instructions
+def PrintInstructionsWithTime():
+	print ("Welcome to the Two Jar problem, where you get problems, with jars, at no cost.")
+	time.sleep(3)
+	print ("There are two Jars. None of the Jars has marks that show the level in any measurement.")
+	time.sleep(3)
+	print ("The purpose is to reach certain amount of water in a Jar given two Jars of different measures.")
+	time.sleep(3)
+	print ("For example: given a Jar of 4 L and another one of 3 L, get 2 L.")
+	time.sleep(3)
+	print ("You can only fill the Jars with new water until they are full. You cannot partially fill any Jar with an arbitrary amount of new water.")
+	time.sleep(3)
+	print ("You can pass water between Jars. However, you cannot know exactly how many liters have been passed to the other Jar by simply puring small amounts of water.")
+	time.sleep(3)
+	print ("However, you deduce the amount of water that a Jar has if you transfer water between them.")
+	time.sleep(3)
+	print ("Let water transfer begin.")
+	time.sleep(3)
+	print ("Jar A has a capacity of 4 liters.")
+	time.sleep(3)	
+	print ("Jar B has a capacity of 3 liters.")
+	time.sleep(3)	
+	print ("You need to reach exactly 2 liters")
+	time.sleep(3)	
+	print ("Please insert the initial value of the jars")
+	time.sleep(3)
+
+	
 # Print starting information
 def PrintStartInfo():
 	global JarAInitialVolume
@@ -138,27 +165,43 @@ def PassWaterTo( x ):
 	if ( x == PassToA ):
 		if ( debugRules == 1 ):
 			print ("Passing water from Jar B to Jar A")
-		if ( JarB == 0 ):
-			if ( debugRules == 1):
-				PrintJarBEmpty()
-		elif (JarA == JarAMaxVolume):
-			if ( debugRules == 1):
-				PrintJarAFull()
+		if ( JarB == 0 ):		# if Jar B is empty
+			RuleTwo()			# fill Jar B
+			if ( printStatus == 1 ):
+				PrintCurrentStatus()
+		if (JarA == JarAMaxVolume): 
+			RuleFive()
+			if ( printStatus == 1 ):
+				PrintCurrentStatus()
+			JarB = JarB - 1
+			JarA = JarA + 1
+			if ( printStatus == 1 ):
+				PrintCurrentStatus()
 		else:
 			JarB = JarB - 1
 			JarA = JarA + 1
+			if ( printStatus == 1 ):
+				PrintCurrentStatus()
 	elif ( x == PassToB):
 		if (debugRules==1):
 			print ("Passing water from Jar A to Jar B")
-		if ( JarA == 0 ):
-			if ( debugRules == 1):
-				PrintJarAEmpty()
-		elif (JarB == JarBMaxVolume):
-			if ( debugRules == 1):
-				PrintJarBFull()
-		else:
-			JarB = JarB + 1
+		if ( JarA == 0 ):		# if Jar A is empty
+			RuleOne()			# fill Jar B
+			if ( printStatus == 1 ):
+				PrintCurrentStatus()
+		if (JarB == JarBMaxVolume): 
+			RuleSix()
+			if ( printStatus == 1 ):
+				PrintCurrentStatus()
 			JarA = JarA - 1
+			JarB = JarB + 1
+			if ( printStatus == 1 ):
+				PrintCurrentStatus()
+		else:
+			JarA = JarA - 1
+			JarB = JarB + 1
+			if ( printStatus == 1 ):
+				PrintCurrentStatus()
 
 def PassAllWaterTo( x ):
 	global JarA
@@ -220,8 +263,11 @@ def askForInitialJarsVolume():
 	JarAInitialVolume = int(input())
 	print ("Please introduce Jar B initial volume")
 	JarBInitialVolume = int(input())
-	if ( printRules == 1):
-		print ("Jar A starts at", JarAInitialVolume,"and Jar B starts at",JarBInitialVolume)
+	print ("Start!")
+	print ("")
+	print ("")
+	
+	print ("Jar A starts at", JarAInitialVolume,"and Jar B starts at",JarBInitialVolume)
 	JarA = JarAInitialVolume
 	JarB = JarBInitialVolume
 
@@ -400,10 +446,12 @@ def HaveWeFinished ( ):
 		return(True)
 	elif (JarB == 2 and JarA == 4):
 		ProgramIsFinishedFlag = True
+		#RuleFive()
 		print("FINISHED")
 		return(True)
 	elif (JarA == 2 and JarB == 3):
 		ProgramIsFinishedFlag = True
+		#RuleSix()
 		print("FINISHED")
 		return(True)	
 
@@ -419,74 +467,46 @@ def startProgram():
 	global ProgramIsFinishedFlag
 
 	while ( True ):
-		
-		
-		if ( HaveWeFinished() ):
-				break
-
-		if ( JarA > JarB ):
-			print ("A")
+	
+		if ( JarA > JarB ):						
+			# keep passing water until you eventually find the solution
 			
-			RuleSeven()
-			if ( HaveWeFinished() ):
-				break
-			
-			if ( maximumCyclesToRun > 10 ):
-				break
-			else:
-				maximumCyclesToRun = maximumCyclesToRun + 1
-			
-			if( printStatus == 1):
-				PrintCurrentStatus()
+			for x in range ( 0, 15):
+				RuleSeven()
+				if ( HaveWeFinished() ):
+					break
+			break
 
 		elif ( JarA < JarB ):
-			print ("B")
-			RuleTen()
-			if ( HaveWeFinished() ):
-				break
-			if ( maximumCyclesToRun > 10 ):
-				break
-			else:
-				maximumCyclesToRun = maximumCyclesToRun + 1
-			RuleTwo()
-			if( printStatus == 1):
-				PrintCurrentStatus()
+			# keep passing water until you eventually find the solution
+			for x in range ( 0, 15):
+				RuleEight()
+				if ( HaveWeFinished() ):
+					break
+			break
 			
 		elif ( JarB == JarA ) :
-			print ("C")
-			if ( maximumCyclesToRun > 10 ):
-				break
+			# if both are equal at start, the program will randomly 
+			# decide to fill one and empty the other
+			evaluarRandom = random.randint(1,2)		
+			if ( evaluarRandom == 1 ):
+				RuleOne()
+				RuleSix()
 			else:
-				maximumCyclesToRun = maximumCyclesToRun + 1
-			RuleTwo()
-			RuleSix()
-			if( printStatus == 1):
-				PrintCurrentStatus()
+				RuleTwo()
+				RuleFive()
 		else:
 			break
 
-	print (	"ma felipe esta en el bote")
+	print (	"The program has actually found the solution!")
 
-#This function helps to depurate any compilation errors
-def TestAllRules():
-	RuleOne()
-	RuleTwo()
-	RuleThree()
-	RuleFour()
-	RuleFive()
-	RuleSix()
-	RuleSeven()
-	RuleEight()
-	RuleNine()
-	RuleTen()
-	RuleEleven()
-	RuleTwelve()
-
-#End of definitions
+#End of function definitions
 
 #Main program
+#debugFunction()
 
 
-debugFunction()
+PrintInstructionsWithTime()
+releaseInitialFunction()
 askForInitialJarsVolume()
 startProgram()
