@@ -435,6 +435,14 @@ def RuleTwelve():
 		print ("Rule 12")
 	JarA = 0
 
+def CloseInOneMinute ( ):
+	time.sleep(10)
+	time.sleep(10)
+	time.sleep(10)
+	time.sleep(10)
+	time.sleep(10)
+	time.sleep(10)
+	
 #This function will check when the 2 liters are found
 def HaveWeFinished ( ):
 	global JarA
@@ -499,6 +507,15 @@ def startProgram():
 			break
 
 	print (	"The program has actually found the solution!")
+	print (	"" )
+	print (	"" )
+	print (	"" )
+	print (	"You can now close this windows.")
+	print (	"This window will automatically close in 3 minutes...")
+	CloseInOneMinute()
+	CloseInOneMinute()
+	CloseInOneMinute()
+
 
 #End of function definitions
 
