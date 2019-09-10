@@ -511,11 +511,10 @@ def startProgram():
 	print (	"" )
 	print (	"" )
 	print (	"You can now close this windows.")
-	print (	"This window will automatically close in 3 minutes...")
+	print (	"This window will automatically close in 2 minutes...")
 	CloseInOneMinute()
 	CloseInOneMinute()
-	CloseInOneMinute()
-
+	
 
 #End of function definitions
 
